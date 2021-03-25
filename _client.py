@@ -1,14 +1,15 @@
 import socket
+import _bot
+
+
 # config socket untuk client (socket,host,port)
 ClientMultiSocket = socket.socket()
-host = '127.0.0.1'
-port = 1234
 
 print('Waiting for connection response')
 # try catch socket connection
 try:
     # client socket connect dengan konfigurasi host dan port
-    ClientMultiSocket.connect((host, port))
+    ClientMultiSocket.connect((_bot.host, _bot.port))
 except socket.error as e:
     # exception ketika koneksi bermasalah atau tidak stabi bahkan error
     print(str(e))

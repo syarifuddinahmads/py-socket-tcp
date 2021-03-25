@@ -6,6 +6,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 import nltk
 from nltk import WordNetLemmatizer
 
+host = '127.0.0.1'
+port = 1232
 
 warnings.filterwarnings('ignore')
 nltk.download('popular', quiet=True)
@@ -62,3 +64,28 @@ def response(text):
     else:
         wordResponse = wordResponse+tokenSent[idx]
     return wordResponse
+
+def handlingResponse(text):
+    flag = True
+    print("From Client = ",text)
+    responseBot = ''
+    while (flag == True):
+        user_response = text.lower()
+        if (user_response != 'bye'):
+            if (user_response == 'thanks' or user_response == 'thank you'):
+                flag = False
+                responseBot ="ROBO: You are welcome.."
+                return responseBot
+            else:
+                if (greetings(user_response) != None):
+                    responseBot = greetings(user_response)
+                    return responseBot
+                else:
+                    print("ROBO: ", end="")
+                    responseBot = response(user_response)
+                    tokenSent.remove(user_response)
+                    return responseBot
+        else:
+            flag = False
+            responseBot = "ROBO: Bye! take care.."
+            return responseBot

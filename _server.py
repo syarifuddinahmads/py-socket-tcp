@@ -4,8 +4,6 @@ import _bot # import bot library
 
 # config socket untuk server (socket,host,port)
 ServerSideSocket = socket.socket()
-host = '127.0.0.1'
-port = 1234
 
 # hitung thread yang berjalan setiap ada koneksi atau client baru
 ThreadCount = 0
@@ -13,7 +11,7 @@ ThreadCount = 0
 # try catch binding connection (host,port)
 try:
     # bind host & port dari server
-    ServerSideSocket.bind((host, port))
+    ServerSideSocket.bind((_bot.host, _bot.port))
 except socket.error as e:
     # exception ketika proses binding host & port gagal
     print(str(e))
@@ -25,7 +23,7 @@ ServerSideSocket.listen(5)
 # thread untuk handle multiple client secara bersamaan
 def multi_threaded_client(connection):
     # kirim pesan sambutan yang telah disediakan di bot library
-    connection.send(str.encode(_bot.greetings('')))
+    connection.send(str.encode(_bot.handlingResponse('')))
     # loop
     while True:
         # receive data from client
@@ -35,7 +33,10 @@ def multi_threaded_client(connection):
         if not data:
             break
         # kirim data response ke semua client yang terkoneksi berdasarkan response yang telah disediakan di bot library
-        connection.sendall(str.encode(_bot.response(response)))
+        print('BOT = ',data.decode('utf-8'))
+        print(('Response receive = ',_bot.handlingResponse(data.decode('utf-8'))))
+        connection.sendall(str.encode(response))
+        break
     # tutup koneksi
     connection.close()
 
