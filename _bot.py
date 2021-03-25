@@ -1,5 +1,5 @@
-import random
-import string
+import random # library untuk memilih random text / raw data
+import string # library
 import warnings
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
@@ -10,13 +10,14 @@ from nltk import WordNetLemmatizer
 warnings.filterwarnings('ignore')
 nltk.download('popular', quiet=True)
 
+# buka data librari atau biasa disebut raw data
 with open('data/bot.txt', 'r', encoding='utf8', errors='ignore') as fin:
-    raws = fin.read().lower()
+    raws = fin.read().lower() # cari data raw yang ada pada file raw data
 
 tokenSent = nltk.sent_tokenize(raws)
 tokenWord = nltk.word_tokenize(raws)
 
-# preprocessing
+# preprocessing text atau raw data
 lmr = WordNetLemmatizer()
 
 
@@ -33,17 +34,17 @@ def lmNormalize(text):
 
 
 # keyword match
-INPUT = ('hello', 'hi', 'help')
-RESPONSE = ['hi', 'hey', 'hello', 'Am a Server, can i help you ?']
+INPUT = ('hello', 'hi', 'help') # input matching dari client
+RESPONSE = ['hi', 'hey', 'hello', 'Am a Server, can i help you ?'] # response matching dari server untuk client berdasar random choice
 
 # greetings word
 def greetings(text):
-    if(text == ''):
-        return "=== Selamat datang di Server BOT Indonesia ===\n BOT akan membantu anda mengenal lebih jauh tentang Indonesia..."
+    if(text == ''): # chek apakah yang diinput client adalah string kosong
+        return "=== Selamat datang di Server BOT Indonesia ===\n BOT akan membantu anda mengenal lebih jauh tentang Indonesia..." # sambuta untuk client yang baru terkoneksi
     else:
-        for word in text.split():
-            if word.lower() in INPUT:
-                return random.choice(RESPONSE)
+        for word in text.split(): # looping untuk mencari kata yang relate dengan yang diinput oleh client
+            if word.lower() in INPUT: # chek apakah text atau keyword yng diinput client ada di match INPUT
+                return random.choice(RESPONSE) # result dari pengecekan ialah random choice dari match RESPONSE yang sudah didefinisikan
 
 # response from server after greeting input
 def response(text):
